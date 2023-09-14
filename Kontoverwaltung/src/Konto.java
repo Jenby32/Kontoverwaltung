@@ -30,6 +30,16 @@ public class Konto {
         }
     }
 
+    // getter for balance
+    public float getBalance() {
+        return this.balance;
+    }
+
+    // setter for balance
+    public void setBalance(float amount) {
+        this.balance = amount;
+    }
+
     // kontoauszug
     public void bankStatement() {
         System.out.println("Kontoinhaber: " + this.accOwner + "\nBLZ: " + this.blz + "\nKontonummer: " + this.accNr + "\nKontostand: " + this.balance + "€\n");
