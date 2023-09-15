@@ -25,6 +25,7 @@ public class Konto {
     public void remBalance(float amount) {
         if(this.balance-amount > this.overdraftLimit) {
             this.balance -= amount;
+            System.out.println("Erfolgreich abgehoben. Neuer Kontostand: " + this.balance);
         } else {
             System.out.println("Sie können das nicht auszahlen! Überziehungslimit: " + this.overdraftLimit + "€. Derzeitiger Kontostand: " + this.balance + "€.");
         }

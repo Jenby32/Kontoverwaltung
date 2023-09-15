@@ -10,7 +10,8 @@ public class App {
             Scanner sc = new Scanner(System.in);
             System.out.println(" 1 | Konto anlegen.");
             System.out.println(" 2 | Konto auflösen.");
-            System.out.println(" 3 | Programm beenden.");
+            System.out.println(" 3 | Konto wählen um weitere Aktionen durchzufuehren");
+            System.out.println(" 4 | Programm beenden.");
 
             int inpM = sc.nextInt();
             if(inpM == 1) {
@@ -72,52 +73,45 @@ public class App {
                     System.out.println("Konto konnte nicht aufgelöst werden. Error: " + e);
                 }
             } else if(inpM == 3) {
+                System.out.println("Welches Konto möchten sie wählen?");
+                for(Konto konto : kontos) {
+                    int counter = 0;
+                    System.out.println(counter + " | " + konto);
+                    counter += 1;
+                }
+                int inpK = sc.nextInt();
+                try {
+                    Konto currK = kontos.get(inpK);
+                    System.out.println("Sie haben das konto: " + kontos.get(inpK) + "ausgewählt.");
+                    sc.nextLine();
+                    System.out.println(" 1 | Einzahlen.");
+                    System.out.println(" 2 | Abheben.");
+                    System.out.println(" 3 | Kontoauszug.");
+                    int inpC = sc.nextInt();
+                    switch(inpC) {
+                        case 1:
+                            System.out.println("Wie viel möchten sie einzahlen?");
+                            float payInAmount = sc.nextFloat();
+                            currK.addBalance(payInAmount);
+                            System.out.println("Einzahlen erfolgreich. Neuer Kontostand: " + currK.getBalance());
+                            break;
+                        case 2:
+                            System.out.println("Wie viel möchten sie auszahlen?");
+                            float payOutAmount = sc.nextFloat();
+                            currK.remBalance(payOutAmount);
+                            break;
+                        case 3:
+                            currK.bankStatement();
+                            break;
+                        default:
+                            break;
+                    }
+                } catch(Exception e) {
+                    System.out.println("Konto konnte nicht ausgewählt werden. Error: " + e);
+                }
+            } else if(inpM == 4) {
                 isRunning = false;
             }
-            // // Testcases fuer Girokonto
-            // System.out.println("Girokonto!!!!!");
-            // // erstellen des girokontos
-            
-            // System.out.println("---------------------------------Kontoauszug 1------------------------------------");
-            // gk1.bankStatement();
-            // System.out.println("---------------------------------Kontoauszug 2-------------------------------");
-            // gk1.addBalance(1000);
-            // gk1.bankStatement();
-            // System.out.println("---------------------------------Kontoauszug 3-------------------------------");
-            // gk1.remBalance(100);
-            // gk1.bankStatement();
-            // System.out.println("---------------------------------Kontoauszug 4-------------------------------");
-            // gk1.remBalance(10000);
-            // gk1.bankStatement();
-
-            // // Testcases fuer Kreditkonto
-            // System.out.println("Kreditkonto!");
-            // // erstellen des Kreditkontos
-            // kontos.add(kk1);
-            // System.out.println("---------------------------------Kontoauszug 1-------------------------------");
-            // kk1.bankStatement();
-            // System.out.println("---------------------------------Kontoauszug 2-------------------------------");
-            // kk1.remBalance(1000);
-            // kk1.bankStatement();
-            // System.out.println("---------------------------------Kontoauszug 3-------------------------------");
-            // kk1.addBalance(100);
-            // kk1.bankStatement();
-
-            // // Testcases fuer Sparkonto
-            // System.out.println("Sparkonto!");
-            // // erstellen des sparkontos
-            // kontos.add(sk1);
-            // System.out.println("---------------------------------Kontoauszug 1-------------------------------");
-            // sk1.bankStatement();
-            // System.out.println("---------------------------------Kontoauszug 2-------------------------------");
-            // sk1.remBalance(1000);
-            // sk1.bankStatement();
-            // System.out.println("---------------------------------Kontoauszug 3-------------------------------");
-            // sk1.addBalance(100);
-            // sk1.bankStatement();
-            // System.out.println("---------------------------------Kontoauszug 4-------------------------------");
-            // sk1.remBalance(150000);
-            // sk1.bankStatement();
         }
     }
 }
