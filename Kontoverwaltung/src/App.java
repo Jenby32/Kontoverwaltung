@@ -10,6 +10,7 @@ public class App {
             Scanner sc = new Scanner(System.in);
             System.out.println(" 1 | Konto anlegen.");
             System.out.println(" 2 | Konto auflösen.");
+            System.out.println(" 3 | Programm beenden.");
 
             int inpM = sc.nextInt();
             if(inpM == 1) {
@@ -70,6 +71,8 @@ public class App {
                 } catch(Exception e) {
                     System.out.println("Konto konnte nicht aufgelöst werden. Error: " + e);
                 }
+            } else if(inpM == 3) {
+                isRunning = false;
             }
             // // Testcases fuer Girokonto
             // System.out.println("Girokonto!!!!!");
