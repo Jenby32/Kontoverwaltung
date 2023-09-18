@@ -6,6 +6,7 @@ public class Sparkonto extends Konto{
         this.setBalance(0);
     }
 
+    // da kein ueberzug moeglich ist bei einem sparkonto überlade ich die funktion set overdraft
     @Override
     public void setOverdraft(float oLimit) {
         System.out.println("Not possible.");
