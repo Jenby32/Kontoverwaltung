@@ -7,13 +7,11 @@ public class Konto {
     private float balance;          // Kontostand
 
     // constructor
-    Konto(String aO, String banklz, String aNr, float oLimit, float f, float b) {
+    Konto(String aO, String banklz, String aNr, float f) {
         this.accOwner = aO;
         this.blz = banklz;
         this.accNr = aNr;
-        this.overdraftLimit = oLimit;
         this.fees = f;
-        this.balance = b;
     }
 
     // einzahlen
@@ -22,25 +20,39 @@ public class Konto {
     }
 
     // auszahlen - dabei ueberpruefen ob das ueberziehungslimit nicht ueberschritten wird
-    public void remBalance(float amount) {
+    public void remBalance(float amount) throws Exception {
         if(this.balance-amount > this.overdraftLimit) {
             this.balance -= amount;
             System.out.println("Erfolgreich abgehoben. Neuer Kontostand: " + this.balance);
         } else {
-            System.out.println("Sie können das nicht auszahlen! Überziehungslimit: " + this.overdraftLimit + "€. Derzeitiger Kontostand: " + this.balance + "€.");
+            throw new Exception("Sie können das nicht auszahlen! Überziehungslimit: " + this.overdraftLimit + "€. Derzeitiger Kontostand: " + this.balance + "€.");
         }
     }
 
-    // getter for balance
+    // getter fuer balance
     public float getBalance() {
         return this.balance;
     }
 
-    // setter for balance
+    // setter fuer balance
     public void setBalance(float amount) {
         this.balance = amount;
     }
 
+    //setter fuer overdraft limit
+    public void setOverdraft(float oLimit) {
+        this.overdraftLimit = oLimit;
+    }
+
+    // getter fuer Account Number
+    public String getKontoNr() {
+        return accNr;
+    }
+
+    // getter fuer account owner
+    public String getOwner() {
+        return accOwner;
+    }
     // kontoauszug
     public void bankStatement() {
         System.out.println("Kontoinhaber: " + this.accOwner + "\nBLZ: " + this.blz + "\nKontonummer: " + this.accNr + "\nKontostand: " + this.balance + "€\n");

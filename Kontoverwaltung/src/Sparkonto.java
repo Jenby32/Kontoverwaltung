@@ -1,10 +1,15 @@
 public class Sparkonto extends Konto{
-
+    
     // constructor
-    Sparkonto(String aO, String banklz, String aNr, float oLimit, float f, float b) {
-        super(aO, banklz, aNr, oLimit, f, b);
+    Sparkonto(String aO, String banklz, String aNr, float oLimit, float f) {
+        super(aO, banklz, aNr, f);
+        this.setBalance(0);
     }
 
+    @Override
+    public void setOverdraft(float oLimit) {
+        System.out.println("Not possible.");
+    }
 
     @Override
     public void remBalance(float amount) {

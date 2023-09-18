@@ -38,20 +38,17 @@ public class App {
                 System.out.println("Kontofuehrungsgebuehren: ");
                 float fees = sc.nextFloat();
 
-                System.out.println("Kontostand: ");
-                float balance = sc.nextFloat();
-
                 switch(kT) {
                     case 1:
-                        Girokonto gk1 = new Girokonto(aO, blz, accNr, oLimit, fees, balance);
+                        Girokonto gk1 = new Girokonto(aO, blz, accNr, oLimit, fees);
                         kontos.add(gk1);
                         break;
                     case 2:
-                        Kreditkonto kk1 = new Kreditkonto(aO, blz, accNr, oLimit, fees, balance);
+                        Kreditkonto kk1 = new Kreditkonto(aO, blz, accNr, oLimit, fees);
                         kontos.add(kk1);
                         break;
                     case 3:
-                        Sparkonto sk1 = new Sparkonto(aO, blz, accNr, oLimit, fees, balance);
+                        Sparkonto sk1 = new Sparkonto(aO, blz, accNr, oLimit, fees);
                         kontos.add(sk1);
                         break;
                     default:
@@ -61,9 +58,7 @@ public class App {
                 // sc.nextLine();
                 System.out.println("Welches Konto möchten sie auflösen?");
                 for(Konto konto : kontos) {
-                    int counter = 0;
-                    System.out.println(counter + " | " + konto);
-                    counter += 1;
+                    System.out.println(kontos.indexOf(konto) + " | " + konto);
                 }
                 int inpK = sc.nextInt();
                 try {
@@ -75,9 +70,7 @@ public class App {
             } else if(inpM == 3) {
                 System.out.println("Welches Konto möchten sie wählen?");
                 for(Konto konto : kontos) {
-                    int counter = 0;
-                    System.out.println(counter + " | " + konto);
-                    counter += 1;
+                    System.out.println(kontos.indexOf(konto) + " | " + konto);
                 }
                 int inpK = sc.nextInt();
                 try {
@@ -87,6 +80,7 @@ public class App {
                     System.out.println(" 1 | Einzahlen.");
                     System.out.println(" 2 | Abheben.");
                     System.out.println(" 3 | Kontoauszug.");
+                    System.out.println(" 4 | Ueberweisen.");
                     int inpC = sc.nextInt();
                     switch(inpC) {
                         case 1:
@@ -102,6 +96,31 @@ public class App {
                             break;
                         case 3:
                             currK.bankStatement();
+                            break;
+                        case 4:
+                            System.out.println("Auf welches Konto möchten sie überweisen? (Kontonummer) ");
+                            sc.nextLine();
+                            String choosenKontoNr = sc.nextLine();
+                            boolean foundAccNr = false;
+                            for(Konto konto : kontos) {
+                                if(konto.getKontoNr().equals(choosenKontoNr)) {
+                                    foundAccNr = true;
+                                    System.out.println("Wie viel möchtest du ueberweisen?");
+                                    float betrag = sc.nextFloat();
+                                    try {
+                                        currK.remBalance(betrag);
+                                        konto.addBalance(betrag);
+                                        System.out.println("Erfolgreich " + betrag + " auf das Konto von " + konto.getOwner() + " mit der Kontonummer " + konto.getKontoNr() + " ueberwiesen.");
+                                    } catch(Exception e){
+                                        System.out.println(e);
+                                    }
+                                    break;
+                                }
+                            }
+                            if(!foundAccNr) {
+                                System.out.println("Es ist ein Problem aufgetreten.");
+                            }
+                            foundAccNr = false;
                             break;
                         default:
                             break;
