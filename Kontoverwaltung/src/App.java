@@ -72,99 +72,107 @@ public class App {
                     break;
                 // konto auswahlen - konto loeschen
                 case 2:
-                    System.out.println("Welches Konto möchten sie auflösen?");
-                    for(Konto konto : kontos) {
-                        System.out.println(kontos.indexOf(konto) + " | " + konto);
-                    }
-                    // input konto aufloesen
-                    int inpKa = sc.nextInt();
-                    try {
-                        // versuchen konto zu loeschen / aufzuloesen
-                        Konto removedK = kontos.remove(inpKa);
-                        System.out.println("Erfolgreich aufgelöst: " + String.valueOf(removedK));
-                    } catch(Exception e) {
-                        System.out.println("Konto konnte nicht aufgelöst werden. Error: " + e);
+                    if(kontos.size() == 0) {
+                            System.out.println("Es sind keine Konten vorhanden.");
+                    } else {
+                        System.out.println("Welches Konto möchten sie auflösen?");
+                        for(Konto konto : kontos) {
+                            System.out.println(kontos.indexOf(konto) + " | " + konto);
+                        }
+                        // input konto aufloesen
+                        int inpKa = sc.nextInt();
+                        try {
+                            // versuchen konto zu loeschen / aufzuloesen
+                            Konto removedK = kontos.remove(inpKa);
+                            System.out.println("Erfolgreich aufgelöst: " + String.valueOf(removedK));
+                        } catch(Exception e) {
+                            System.out.println("Konto konnte nicht aufgelöst werden. Error: " + e);
+                        }
                     }
                     break;
 
                 // konto waehlen - kontos anzeigen - aktion waehlen - aktion ausfuehren
                 case 3:
-                    System.out.println("Welches Konto möchten sie wählen?");
-                    for(Konto konto : kontos) {
-                        System.out.println(kontos.indexOf(konto) + " | " + konto);
-                    }
-                    // input konto waehlen
-                    int inpKc = sc.nextInt();
-                    try {
-                        // versuchen auf das gewaehlte Konto zu wechseln - moeglicher error (index out of bound) -> deswegen try catch
-                        Konto currK = kontos.get(inpKc);
-                        System.out.println("Sie haben das konto: " + kontos.get(inpKc) + "ausgewählt.");
-                        sc.nextLine();
-                        // aktion waehlen
-                        System.out.println(" 1 | Einzahlen.");
-                        System.out.println(" 2 | Abheben.");
-                        System.out.println(" 3 | Kontoauszug.");
-                        System.out.println(" 4 | Ueberweisen.");
-                        int inpC = sc.nextInt();
-                        switch(inpC) {
-                            // einzahlen
-                            case 1:
-                                System.out.println("Wie viel möchten sie einzahlen?");
-                                float payInAmount = sc.nextFloat();
-                                currK.addBalance(payInAmount);
-                                System.out.println("Einzahlen erfolgreich. Neuer Kontostand: " + currK.getBalance());
-                                break;
-                            // auszahlen
-                            case 2:
-                                System.out.println("Wie viel möchten sie auszahlen?");
-                                float payOutAmount = sc.nextFloat();
-                                currK.remBalance(payOutAmount);
-                                break;
-                            // kontoauszug ausgeben
-                            case 3:
-                                currK.bankStatement();
-                                break;
-                            // ueberweisen
-                            case 4:
-                                // kontonummer des zu ueberweisenden kontos eingeben
-                                System.out.println("Auf welches Konto möchten sie überweisen? (Kontonummer) ");
-                                sc.nextLine();
-                                String choosenKontoNr = sc.nextLine();
-
-                                // boolean dient dazu um eine fehlermeldung auszugeben wenn kein Konto mit der dazugehoerigen Kontonummer gefunden wurde
-                                boolean foundAccNr = false;
-
-                                // schleife durch Kontos
-                                for(Konto konto : kontos) {
-                                    // wenn die kontonummern uebereinstimmen
-                                    if(konto.getKontoNr().equals(choosenKontoNr)) {
-                                        foundAccNr = true;
-                                        System.out.println("Wie viel möchtest du ueberweisen?");
-                                        float betrag = sc.nextFloat();
-                                        try {
-                                            // versuchen dem Konto von dem ueberwiesen wird das geld abzuziehen
-                                            currK.remBalance(betrag);
-                                            // dem zu ueberweisenden Konto das geld ueberweisen
-                                            konto.addBalance(betrag);
-                                            System.out.println("Erfolgreich " + betrag + " auf das Konto von " + konto.getOwner() + " mit der Kontonummer " + konto.getKontoNr() + " ueberwiesen.");
-                                        } catch(Exception e){
-                                            // wenn nicht genug geld - oder ueberziehlimit zu gering usw. fehlermeldung
-                                            System.out.println(e);
-                                        }
-                                        break;
-                                    }
-                                }
-                                // wenn keine ueberinstimmende Kontonummer gefunden wurde Fehler ausgeben
-                                if(!foundAccNr) {
-                                    System.out.println("Es ist ein Problem aufgetreten.");
-                                }
-                                foundAccNr = false;
-                                break;
-                            default:
-                                break;
+                    if(kontos.size() == 0) {
+                        System.out.println("Es sind keine Konten vorhanden.");
+                    } else {
+                        System.out.println("Welches Konto möchten sie wählen?");
+                        for(Konto konto : kontos) {
+                            System.out.println(kontos.indexOf(konto) + " | " + konto);
                         }
-                    } catch(Exception e) {
-                        System.out.println("Konto konnte nicht ausgewählt werden. Error: " + e);
+                        // input konto waehlen
+                        int inpKc = sc.nextInt();
+                        try {
+                            // versuchen auf das gewaehlte Konto zu wechseln - moeglicher error (index out of bound) -> deswegen try catch
+                            Konto currK = kontos.get(inpKc);
+                            System.out.println("Sie haben das konto: " + kontos.get(inpKc) + "ausgewählt.");
+                            sc.nextLine();
+                            // aktion waehlen
+                            System.out.println(" 1 | Einzahlen.");
+                            System.out.println(" 2 | Abheben.");
+                            System.out.println(" 3 | Kontoauszug.");
+                            System.out.println(" 4 | Ueberweisen.");
+                            int inpC = sc.nextInt();
+                            switch(inpC) {
+                                // einzahlen
+                                case 1:
+                                    System.out.println("Wie viel möchten sie einzahlen?");
+                                    float payInAmount = sc.nextFloat();
+                                    currK.addBalance(payInAmount);
+                                    System.out.println("Einzahlen erfolgreich. Neuer Kontostand: " + currK.getBalance());
+                                    break;
+                                // auszahlen
+                                case 2:
+                                    System.out.println("Wie viel möchten sie auszahlen?");
+                                    float payOutAmount = sc.nextFloat();
+                                    currK.remBalance(payOutAmount);
+                                    break;
+                                // kontoauszug ausgeben
+                                case 3:
+                                    currK.bankStatement();
+                                    break;
+                                // ueberweisen
+                                case 4:
+                                    // kontonummer des zu ueberweisenden kontos eingeben
+                                    System.out.println("Auf welches Konto möchten sie überweisen? (Kontonummer) ");
+                                    sc.nextLine();
+                                    String choosenKontoNr = sc.nextLine();
+
+                                    // boolean dient dazu um eine fehlermeldung auszugeben wenn kein Konto mit der dazugehoerigen Kontonummer gefunden wurde
+                                    boolean foundAccNr = false;
+
+                                    // schleife durch Kontos
+                                    for(Konto konto : kontos) {
+                                        // wenn die kontonummern uebereinstimmen
+                                        if(konto.getKontoNr().equals(choosenKontoNr)) {
+                                            foundAccNr = true;
+                                            System.out.println("Wie viel möchtest du ueberweisen?");
+                                            float betrag = sc.nextFloat();
+                                            try {
+                                                // versuchen dem Konto von dem ueberwiesen wird das geld abzuziehen
+                                                currK.remBalance(betrag);
+                                                // dem zu ueberweisenden Konto das geld ueberweisen
+                                                konto.addBalance(betrag);
+                                                System.out.println("Erfolgreich " + betrag + " auf das Konto von " + konto.getOwner() + " mit der Kontonummer " + konto.getKontoNr() + " ueberwiesen.");
+                                            } catch(Exception e){
+                                                // wenn nicht genug geld - oder ueberziehlimit zu gering usw. fehlermeldung
+                                                System.out.println(e);
+                                            }
+                                            break;
+                                        }
+                                    }
+                                    // wenn keine ueberinstimmende Kontonummer gefunden wurde Fehler ausgeben
+                                    if(!foundAccNr) {
+                                        System.out.println("Es ist ein Problem aufgetreten.");
+                                    }
+                                    foundAccNr = false;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        } catch(Exception e) {
+                            System.out.println("Konto konnte nicht ausgewählt werden. Error: " + e);
+                        }
                     }
                     break;
                 case 4:
