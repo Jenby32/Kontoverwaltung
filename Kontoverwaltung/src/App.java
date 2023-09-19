@@ -82,9 +82,14 @@ public class App {
                         // input konto aufloesen
                         int inpKa = sc.nextInt();
                         try {
+                            Konto selK = kontos.get(inpKa);
                             // versuchen konto zu loeschen / aufzuloesen
-                            Konto removedK = kontos.remove(inpKa);
-                            System.out.println("Erfolgreich aufgelöst: " + String.valueOf(removedK));
+                            if (selK.getBalance() < 0) {
+                                System.out.println("Sie sind im Minus, sie können ihr Konto nicht auflösen.");
+                            } else {
+                                Konto removedK = kontos.remove(inpKa);
+                                System.out.println("Erfolgreich aufgelöst: " + String.valueOf(removedK));
+                            }
                         } catch(Exception e) {
                             System.out.println("Konto konnte nicht aufgelöst werden. Error: " + e);
                         }
