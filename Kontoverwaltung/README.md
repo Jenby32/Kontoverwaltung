@@ -13,7 +13,7 @@ To run this application, ensure you have Java installed on your computer. Follow
 1. **Clone** this repository to your local machine:
 
    ```shell
-   git clone https://github.com/your-username/bank-account-management.git
+   git clone https://github.com/Jenby32/Kontoverwaltung/
 
 2. **Navigate** to the project directory:
    ```shell
