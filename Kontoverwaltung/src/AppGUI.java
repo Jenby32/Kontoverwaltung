@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AppGUI {
+    // Alle Komponenten deklarieren
     private JComboBox kontoTypComboBox;
     private JTextField kontoInhaberTextField;
     private JComboBox kontenComboBox;
@@ -21,7 +22,9 @@ public class AppGUI {
     private JButton überweisenButton;
     private JLabel InfoLabel;
 
+    // constructor
     public AppGUI() {
+        // Alle notwendigen ActionListener hinzufügen
         kontoAnlegenButton.addActionListener(new KontoAnlegenClicked());
         kontenComboBox.addActionListener(new KontoGewaehlt());
         einzahlenButton.addActionListener(new ActionButtonClicked(0));
@@ -29,9 +32,11 @@ public class AppGUI {
         überweisenButton.addActionListener(new ActionButtonClicked(2));
     }
 
-
+    // Liste in der die Konten verwaltet werden
     List<Konto> kontos = new ArrayList<Konto>(10);
 
+    // Wird aufgerufen wenn man ein konto anlegen möchte
+    // Abfragen müssen noch erstell werden die checken ob alle Eingaben vorhanden und korrekt sind usw.
     private class KontoAnlegenClicked implements ActionListener {
         private String kT;
         private String accOwner;        // Kontoinhaber
@@ -46,6 +51,7 @@ public class AppGUI {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            // Die Values aus den Input Boxen rausholen und speichern
             kT = kontoTypComboBox.getSelectedItem().toString();
             accOwner = kontoInhaberTextField.getText();        // Kontoinhaber
             blz = bankleitzahlTextField.getText();             // Bankleitzahl
@@ -53,6 +59,7 @@ public class AppGUI {
             overdraftLimit = Float.parseFloat(überziehlimitTextField.getText());  // Konto Überziehungsrahmen
             fees = Float.parseFloat(kontoführungsgebührenTextField.getText());             // Kontofuehrungsgebuehren
             balance = 0f;
+            // Je nach Kontotyp ein Konto erstellen
             switch (kT) {
                 case "Girokonto":
                     Girokonto gk1 = new Girokonto(accOwner, blz, accNr, overdraftLimit, fees);
@@ -75,6 +82,7 @@ public class AppGUI {
         }
     }
 
+    // wenn man ein Konto gewählt hat wird derzeit nur mal der Kontoauszug angezeigt
     private class KontoGewaehlt implements ActionListener {
         public KontoGewaehlt() {
             System.out.println("Sie haben xxxx Konto gewählt.");
@@ -82,8 +90,10 @@ public class AppGUI {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            // String array für die Daten
             ArrayList<String> kontoAuszugDaten = new ArrayList<String>(10);
             for(Konto konto : kontos) {
+                // wenn die Kontonummer von Kontos[i] die Kontonummer ist die man ausgewählt hat wir der TextArea alles appended
                 if(konto.getKontoNr().equals(kontenComboBox.getSelectedItem().toString())) {
                     kontoAuszug.setText("");
                     kontoAuszug.append("Kontoinhaber: " + konto.getOwner() + "\n");
@@ -97,6 +107,8 @@ public class AppGUI {
         }
     }
 
+    // Deckt alles "ActionButtons" ab -> Einzahlen, Auszahlen, Überweisen
+    // nicht fertig
     private class ActionButtonClicked implements ActionListener {
         int value;
         public ActionButtonClicked(int val) {
@@ -107,15 +119,22 @@ public class AppGUI {
         public void actionPerformed(ActionEvent e) {
             switch (value){
                 case 0:
+                    // Open Window to Pay a specific amount in
                     break;
                 case 1:
+                    // Open Window to Pay a specific amount out
                     break;
                 case 2:
+                    // Open Window to transfer a specific amount to a specific account
+                    break;
+                default:
                     break;
             }
         }
     }
 
+    // Funktion gibt das Konto zurück das aus dem Dropdown gewählt wurde
+    // so wird verhindert das man dieselbe Funktion immer und immer wieder schreiben muss
     public Konto getSelectedKonto() {
         String selKNR = kontenComboBox.getSelectedItem().toString();
         for(Konto konto : kontos) {
