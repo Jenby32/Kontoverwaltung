@@ -95,11 +95,7 @@ public class AppGUI {
             for(Konto konto : kontos) {
                 // wenn die Kontonummer von Kontos[i] die Kontonummer ist die man ausgewählt hat wir der TextArea alles appended
                 if(konto.getKontoNr().equals(kontenComboBox.getSelectedItem().toString())) {
-                    kontoAuszug.setText("");
-                    kontoAuszug.append("Kontoinhaber: " + konto.getOwner() + "\n");
-                    kontoAuszug.append("Kontonummer: " + konto.getKontoNr() + "\n");
-                    kontoAuszug.append("Kontostand: " + konto.getBalance() + "\n");
-
+                    setKontoAuszug();
                     break;
                 }
             }
@@ -119,7 +115,38 @@ public class AppGUI {
         public void actionPerformed(ActionEvent e) {
             switch (value){
                 case 0:
-                    // Open Window to Pay a specific amount in
+                    // Bei Case 0 also "Einzahlen" Button clicked wird ein neues Fenster namens Einzahlen (payInWindow)
+                    // geöffnet
+                    JFrame payInWindow = new JFrame("Einzahlen");
+                    PayIn pIn = new PayIn();
+                    payInWindow.setContentPane(pIn.payInWindow);
+                    payInWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    payInWindow.pack();
+                    payInWindow.setVisible(true);
+
+                    // Die Submit Klasse wird aufgerufen wenn der Einzahlen button geklickt wurde
+                    class Submit implements ActionListener {
+
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Das konto das ausgewählt ist speichern
+                            Konto curK = getSelectedKonto();
+                            // Den Inhalt des textfeldes holen
+                            String txtFieldContent = pIn.textField1.getText();
+                            // wenn das Textfeld nicht leer ist If block ausführen
+                            if(!txtFieldContent.equals("")) {
+                                // EInzahlbetrag wird auf das ausgewählte Konto eingezahlt
+                                curK.addBalance(Float.parseFloat(txtFieldContent));
+                                // window wird auf unsichtbar gesetzt und objekt wird zerstört
+                                payInWindow.setVisible(false);
+                                payInWindow.dispose();
+                                // Kontoauszug auf der Oberfläche wird geupdatet
+                                setKontoAuszug();
+                            }
+                        }
+                    }
+                    // Action Listener für den Einzahlbutton
+                    pIn.einzahlen.addActionListener(new Submit());
                     break;
                 case 1:
                     // Open Window to Pay a specific amount out
@@ -145,9 +172,19 @@ public class AppGUI {
         return null;
     }
 
+    // Die Funktion ist hauptsächlich dazu da das ich nach verschiedenen Abläufen wie auszahlen/einzahlen/überweisen
+    // automatisch wieder den Kontoauszug auf der Oberfläche updaten kann
+    public void setKontoAuszug() {
+        kontoAuszug.setText("");
+        kontoAuszug.append("Kontoinhaber: " + getSelectedKonto().getOwner() + "\n");
+        kontoAuszug.append("Kontonummer: " + getSelectedKonto().getKontoNr() + "\n");
+        kontoAuszug.append("Kontostand: " + getSelectedKonto().getBalance() + "\n");
+    }
+
     public static void main(String[] args) {
         JFrame frame = new JFrame("Kontoverwaltung");
-        frame.setContentPane(new AppGUI().kontoverwaltungView);
+        AppGUI appGUI = new AppGUI();
+        frame.setContentPane(appGUI.kontoverwaltungView);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(900, 400);
         frame.setVisible(true);
