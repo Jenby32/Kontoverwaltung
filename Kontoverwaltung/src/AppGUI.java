@@ -215,6 +215,7 @@ public class AppGUI {
 
                             // wenn das Textfeld nicht leer ist If block ausführen
                             if(!txtAccNrFieldContent.equals("") && !txtTransferAmntFieldContent.equals("")) {
+
                                 Konto transferK = getKontoByAccNr(txtAccNrFieldContent);
                                 if(transferK != null) {
                                     try {
